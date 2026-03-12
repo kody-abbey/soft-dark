@@ -1,9 +1,12 @@
+const api = typeof browser !== "undefined" ? browser : chrome;
+
 const statusText = document.getElementById("status");
 const toggleBtn = document.getElementById("toggleBtn");
 
 // ===== Get current active tab =====
 async function getCurrentDomain() {
-  const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+  const tabs = await api.tabs.query({ active: true, currentWindow: true });
+
   try {
     const url = new URL(tabs[0].url);
     return url.hostname;
@@ -28,31 +31,38 @@ function updateUI(isOn) {
 // ===== Load state =====
 async function loadState() {
   const domain = await getCurrentDomain();
-  const result = await browser.storage.local.get(domain);
+  if (!domain) return;
 
+  const result = await api.storage.local.get(domain);
   const isOn = !!result[domain];
+
   updateUI(isOn);
 }
 
 // ===== Toggle state =====
 toggleBtn.addEventListener("click", async () => {
   const domain = await getCurrentDomain();
-  const result = await browser.storage.local.get(domain);
+  if (!domain) return;
 
+  const result = await api.storage.local.get(domain);
   const newState = !result[domain];
 
-  await browser.storage.local.set({ [domain]: newState });
+  await api.storage.local.set({ [domain]: newState });
 
   updateUI(newState);
 
-  const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+  const tabs = await api.tabs.query({ active: true, currentWindow: true });
 
-  browser.tabs.sendMessage(tabs[0].id, {
-    type: "TOGGLE_DARK_MODE",
-    enabled: newState
-  });
+  // api.tabs.sendMessage(tabs[0].id, {
+  //   type: "TOGGLE_DARK_MODE",
+  //   enabled: newState
+  // });
 });
 
+// ===== Message listener =====
+api.runtime.onMessage.addListener((msg) => {
+  console.log(msg);
+});
 
 // Initialize
 loadState();
