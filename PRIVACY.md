@@ -18,7 +18,9 @@ Last updated: 2026-02-08
 
 Simple Dark Mode Switch is designed with privacy as a core principle.
 
-This extension does NOT collect, transmit, or store personal data.
+This extension does NOT collect, transmit, or sell personal data or browsing history.
+
+All stored data remains on the user's device.
 
 ---
 
