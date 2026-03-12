@@ -1,0 +1,13 @@
+{
+  "name": "Soft Dark",
+  "version": "0.2.0",
+  "scripts": {
+    "build:chrome": "rm -rf dist-chrome && mkdir dist-chrome && cp -r src/icons dist-chrome && cp -r src/popup dist-chrome && cp src/content.js dist-chrome && cp src/browser-polyfill.js dist-chrome && cp src/manifest.chrome.json dist-chrome/manifest.json",
+    "build:firefox": "rm -rf dist-firefox && mkdir dist-firefox && cp -r src/icons dist-firefox && cp -r src/popup dist-firefox && cp src/content.js dist-firefox && cp src/browser-polyfill.js dist-firefox && cp src/manifest.firefox.json dist-firefox/manifest.json",
+    "dev": "web-ext run --source-dir src"
+  },
+  "devDependencies": {
+    "web-ext": "^9.4.0"
+  }
+   
+}

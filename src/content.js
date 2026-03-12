@@ -1,3 +1,5 @@
+const api = typeof browser !== "undefined" ? browser : chrome;
+
 function applyDarkMode() {
   if (document.getElementById("simple-dark-mode-style")) return;
 
@@ -44,7 +46,7 @@ function removeDarkMode() {
   if (style) style.remove();
 }
 
-browser.runtime.onMessage.addListener((msg) => {
+api.runtime.onMessage.addListener((msg) => {
   if (msg.type === "TOGGLE_DARK_MODE") {
     if (msg.enabled) {
       applyDarkMode();
@@ -55,13 +57,35 @@ browser.runtime.onMessage.addListener((msg) => {
 });
 
 async function checkDomain() {
-  const domain = location.hostname;
+  try {
+    const domain = location.hostname;
 
-  const result = await browser.storage.local.get(domain);
+    if (!domain) return;
 
-  if (result[domain]) {
-    applyDarkMode();
+    const result = await api.storage.local.get(domain);
+
+    if (result[domain]) {
+      applyDarkMode();
+    }
+  } catch (e) {
+    console.error("Domain check error:", e);
   }
 }
+
+api.storage.onChanged.addListener((changes, area) => {
+  if (area !== "local") return;
+
+  const domain = location.hostname;
+
+  if (!changes[domain]) return;
+
+  const enabled = changes[domain].newValue;
+
+  if (enabled) {
+    applyDarkMode();
+  } else {
+    removeDarkMode();
+  }
+});
 
 checkDomain();
