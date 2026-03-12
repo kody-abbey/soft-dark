@@ -1,3 +1,7 @@
+[![Firefox Add-on](https://img.shields.io/badge/Firefox-Add--on-FF7139?logo=firefoxbrowser&logoColor=white)](https://addons.mozilla.org/en-US/firefox/addon/soft-dark-per-site-dark-mode/)
+![Lightweight](https://img.shields.io/badge/Lightweight-Yes-success)
+![Tracking](https://img.shields.io/badge/Tracking-No-brightgreen)
+
 # 🌙 Soft Dark
 
 A lightweight, universal dark mode extension for Firefox.
