@@ -52,11 +52,6 @@ toggleBtn.addEventListener("click", async () => {
   updateUI(newState);
 
   const tabs = await api.tabs.query({ active: true, currentWindow: true });
-
-  // api.tabs.sendMessage(tabs[0].id, {
-  //   type: "TOGGLE_DARK_MODE",
-  //   enabled: newState
-  // });
 });
 
 // ===== Message listener =====
